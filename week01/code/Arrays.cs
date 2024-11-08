@@ -8,13 +8,20 @@ public static class Arrays
     /// <returns>array of doubles that are the multiples of the supplied number</returns>
     public static double[] MultiplesOf(double number, int length)
     {
-        // TODO Problem 1 Start
-        // Remember: Using comments in your program, write down your process for solving this problem
-        // step by step before you write the code. The plan should be clear enough that it could
-        // be implemented by another person.
+        // Create an array to hold the multiples
+        double[] multiples = new double[length];
 
-        return []; // replace this return statement with your own
+        // Loop through the array length and calculate each multiple
+        for (int i = 0; i < length; i++)
+        {
+            // Calculate each multiple (number * (i + 1)) and store it in the array
+            multiples[i] = number * (i + 1);
+        }
+
+        // Return the filled array of multiples
+        return multiples;
     }
+
 
     /// <summary>
     /// Rotate the 'data' to the right by the 'amount'.  For example, if the data is 
@@ -25,9 +32,34 @@ public static class Arrays
     /// </summary>
     public static void RotateListRight(List<int> data, int amount)
     {
-        // TODO Problem 2 Start
-        // Remember: Using comments in your program, write down your process for solving this problem
-        // step by step before you write the code. The plan should be clear enough that it could
-        // be implemented by another person.
+        // Check to see if the number given is within range or equal to the length of the list
+        if (amount == 0 || amount == data.Count)
+        {
+            return;
+        }
+
+        // Use modulo to normalize the amount given
+        amount = amount % data.Count;
+
+        // Make a temp array
+        int[] temp = new int[data.Count];
+
+        // Move the amount elements to the beginning of the list
+        for (int i = 0; i < amount; i++)
+        {
+            temp[i] = data[data.Count - amount + i];
+        }
+
+        // Move remaining elements at the end of the list
+        for (int i = 0; i < data.Count - amount; i++)
+        {
+            temp[amount + i] = data[i];
+        }
+
+        // Replace original list with temp array
+        for (int i = 0; i < data.Count; i++)
+        {
+            data[i] = temp[i];
+        }
     }
 }
