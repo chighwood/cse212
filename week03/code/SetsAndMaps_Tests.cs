@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 // DO NOT MODIFY THIS FILE
@@ -147,6 +148,8 @@ public class SummarizeDegreesTests
         };
 
         CollectionAssert.AreEqual(expected, result);
+
+        Console.WriteLine(SummarizeCensusDegrees);
     }
 }
 

@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 public static class SetsAndMaps
 {
@@ -18,11 +19,31 @@ public static class SetsAndMaps
     /// it would not match anything else (remember the assumption above
     /// that there were no duplicates) and therefore should not be returned.
     /// </summary>
-    /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
+    /// <param name="words">An array of 2-character words (lowercase, no dupicates)</param>
+    /// 
+
+
     public static string[] FindPairs(string[] words)
     {
         // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+        HashSet<string> wordSet = new HashSet<string>();
+        List<string> result = new List<string>();
+
+        foreach (string word in words)
+        {
+            string reverseWord = new string(new char[] { word[1], word[0] });
+
+            if (wordSet.Contains(reverseWord))
+            {
+                result.Add($"{reverseWord} & {word}");
+            }
+            else
+            {
+                wordSet.Add(word);
+            }
+        }
+
+        return result.ToArray();
     }
 
     /// <summary>
@@ -36,17 +57,33 @@ public static class SetsAndMaps
     /// </summary>
     /// <param name="filename">The name of the file to read</param>
     /// <returns>fixed array of divisors</returns>
+
+
+
     public static Dictionary<string, int> SummarizeDegrees(string filename)
     {
         var degrees = new Dictionary<string, int>();
         foreach (var line in File.ReadLines(filename))
         {
-            var fields = line.Split(",");
-            // TODO Problem 2 - ADD YOUR CODE HERE
+            string[] columns = line.Split(',');
+            string degree = columns[3].Trim();
+
+            if (degrees.ContainsKey(degree))
+            {
+                degrees[degree]++;
+            }
+            else
+            {
+                degrees[degree] = 1;
+            }
         }
+
+        Console.WriteLine(degrees);
 
         return degrees;
     }
+
+
 
     /// <summary>
     /// Determine if 'word1' and 'word2' are anagrams.  An anagram
@@ -64,10 +101,49 @@ public static class SetsAndMaps
     /// Reminder: You can access a letter by index in a string by 
     /// using the [] notation.
     /// </summary>
+    /// 
+
+
+
     public static bool IsAnagram(string word1, string word2)
     {
-        // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+        word1 = word1.Replace(" ", "").ToLower();
+        word2 = word2.Replace(" ", "").ToLower();
+
+        if (word1.Length != word2.Length)
+        {
+            return false;
+        }
+
+        Dictionary<char, int> letterCount = new Dictionary<char, int>();
+
+        foreach (char letter in word1)
+        {
+            if (letterCount.ContainsKey(letter))
+            {
+                letterCount[letter]++;
+            }
+            else
+            {
+                letterCount[letter] = 1;
+            }
+        }
+
+        foreach (char letter in word2)
+        {
+            if (!letterCount.ContainsKey(letter))
+            {
+                return false;
+            }
+
+            letterCount[letter]--;
+
+            if (letterCount[letter] == 0)
+            {
+                letterCount.Remove(letter);
+            }
+        }
+        return letterCount.Count == 0;
     }
 
     /// <summary>
