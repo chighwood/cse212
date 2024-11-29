@@ -149,7 +149,6 @@ public class SummarizeDegreesTests
 
         CollectionAssert.AreEqual(expected, result);
 
-        Console.WriteLine(SummarizeCensusDegrees);
     }
 }
 
