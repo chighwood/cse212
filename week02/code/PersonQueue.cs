@@ -5,47 +5,50 @@
 using System;
 using System.Collections.Generic;
 
+using System;
+using System.Collections.Generic;
+
 public class PersonQueue
 {
-    private List<(string Name, int Priority)> _queue = new List<(string, int)>();
+    private List<(string Name, int Turns)> _queue = new();
 
-    // Add a person with their priority to the queue
-    public void Enqueue(string name, int priority)
+    // Adds a person to the queue
+    public void Enqueue(string name, int turns)
     {
-        _queue.Add((name, priority)); // Add the person to the end of the queue
+        _queue.Add((name, turns));
     }
 
-    // Remove the person with the highest priority from the queue
-    public string Dequeue()
+    // Removes and returns the person with the highest priority (first if tied)
+    public (string Name, int Turns) Dequeue()
     {
         if (_queue.Count == 0)
         {
             throw new InvalidOperationException("Queue is empty.");
         }
 
-        // Find the person with the highest priority
         var highestPriorityPerson = _queue[0];
+        int indexToRemove = 0;
 
-        foreach (var person in _queue)
+        for (int i = 1; i < _queue.Count; i++)
         {
-            if (person.Priority > highestPriorityPerson.Priority)
+            if (_queue[i].Turns > highestPriorityPerson.Turns)
             {
-                highestPriorityPerson = person;
+                highestPriorityPerson = _queue[i];
+                indexToRemove = i;
             }
         }
 
-        // Remove the highest priority person from the list
-        _queue.Remove(highestPriorityPerson);
-
-        return highestPriorityPerson.Name;
+        _queue.RemoveAt(indexToRemove);
+        return highestPriorityPerson;
     }
 
-    // Check if the queue is empty
+    // Checks if the queue is empty
     public bool IsEmpty()
     {
         return _queue.Count == 0;
     }
 
-    // Get the number of people in the queue
+    // Returns the number of people in the queue
     public int Length => _queue.Count;
 }
+
