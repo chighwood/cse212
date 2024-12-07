@@ -171,6 +171,7 @@ public static class Recursion
         WildcardBinary(pattern.Substring(0, wildcardIndex) + '1' + pattern.Substring(wildcardIndex + 1), results);
     }
 
+
     /// <summary>
     /// Use recursion to insert all paths that start at (0,0) and end at the
     /// 'end' square into the results list.
@@ -182,13 +183,34 @@ public static class Recursion
         if (currPath == null)
         {
             currPath = new List<ValueTuple<int, int>>();
-        }
-
-        // currPath.Add((1,2)); // Use this syntax to add to the current path
+        };
 
         // TODO Start Problem 5
         // ADD CODE HERE
 
-        // results.Add(currPath.AsString()); // Use this to add your path to the results array keeping track of complete maze solutions when you find the solution.
+        // Check to see if it is false, if so return
+        if (!maze.IsValidMove(currPath, x, y))
+        {
+            return;
+        }
+
+        currPath.Add((x, y));
+
+        // Check to see if it is the end, if so, add it to results and remove the path, then return
+        if (maze.IsEnd(x, y))
+        {
+            results.Add(currPath.AsString());
+            currPath.RemoveAt(currPath.Count - 1);
+            return;
+        }
+
+        // If it is not the end, check it's nieghbors with fuction call 
+        SolveMaze(results, maze, x, y + 1, currPath);
+        SolveMaze(results, maze, x + 1, y, currPath);
+        SolveMaze(results, maze, x, y - 1, currPath);
+        SolveMaze(results, maze, x - 1, y, currPath);
+
+        currPath.RemoveAt(currPath.Count - 1);
+        return;
     }
 }
